@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" font-family="-apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef0ff"/>
+      <stop offset="1" stop-color="#f6ecff"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b6cff"/>
+      <stop offset="1" stop-color="#b44cff"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#2b1d66" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="800" fill="url(#bg)"/>
+
+  <!-- browser window -->
+  <g filter="url(#shadow)">
+    <rect x="120" y="90" width="1040" height="300" rx="18" fill="#fff"/>
+  </g>
+  <circle cx="156" cy="124" r="8" fill="#ff5f57"/>
+  <circle cx="182" cy="124" r="8" fill="#febc2e"/>
+  <circle cx="208" cy="124" r="8" fill="#28c840"/>
+  <rect x="150" y="160" width="900" height="52" rx="26" fill="#f1f3f6"/>
+  <text x="182" y="194" font-size="22" fill="#3c4043">https://github.com/jsamuel1/chrome-copy-url</text>
+  <!-- extension toolbar icon with badge -->
+  <rect x="1072" y="164" width="44" height="44" rx="10" fill="url(#brand)"/>
+  <g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" transform="rotate(-45 1094 186)">
+    <rect x="1079" y="180" width="17" height="12" rx="6"/>
+    <rect x="1092" y="180" width="17" height="12" rx="6"/>
+  </g>
+  <rect x="1098" y="150" width="30" height="24" rx="12" fill="#188038"/>
+  <text x="1113" y="168" font-size="16" fill="#fff" text-anchor="middle" font-weight="700">✓</text>
+  <rect x="150" y="240" width="560" height="18" rx="9" fill="#eceef2"/>
+  <rect x="150" y="276" width="760" height="18" rx="9" fill="#eceef2"/>
+  <rect x="150" y="312" width="480" height="18" rx="9" fill="#eceef2"/>
+
+  <!-- keycaps -->
+  <g transform="translate(-95 0)">
+  <g font-size="64" font-weight="600" fill="#1f1f3a" text-anchor="middle">
+    <g filter="url(#shadow)">
+      <rect x="300" y="470" width="150" height="130" rx="22" fill="#fff"/>
+      <rect x="490" y="470" width="150" height="130" rx="22" fill="#fff"/>
+      <rect x="680" y="470" width="150" height="130" rx="22" fill="#fff"/>
+    </g>
+    <text x="375" y="557">⌘</text>
+    <text x="565" y="557">⇧</text>
+    <text x="755" y="557">C</text>
+  </g>
+  <text x="890" y="555" font-size="44" fill="#5b6cff" font-weight="700">→  URL copied</text>
+  </g>
+
+  <text x="640" y="690" font-size="34" fill="#1f1f3a" text-anchor="middle" font-weight="600">Arc's copy-URL shortcut, back in Chrome</text>
+  <text x="640" y="738" font-size="24" fill="#5f6368" text-anchor="middle">⌘⇧C on macOS · Ctrl+Shift+C on Windows and Linux · rebind any time</text>
+</svg>
