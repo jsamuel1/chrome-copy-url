@@ -14,5 +14,6 @@ Permissions used:
 |---|---|
 | `activeTab` | Read the URL of the tab you are on, only at the moment you invoke the shortcut or click the icon. |
 | `offscreen` | Manifest V3 background workers can't access the clipboard, so a hidden offscreen page performs the copy. |
+| `clipboardWrite` | Lets that hidden page write the URL to the clipboard. The extension never reads the clipboard. |
 
 Questions: open an issue at https://github.com/jsamuel1/chrome-copy-url/issues.

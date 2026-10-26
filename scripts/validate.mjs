@@ -50,6 +50,11 @@ for (const f of ["background.js", "offscreen.js"]) {
 
 if (!manifest.commands?.["copy-url"]?.suggested_key) fail('missing "copy-url" command shortcut');
 
+// Without clipboardWrite, execCommand("copy") in the (never-focused) offscreen document silently returns false.
+for (const p of ["activeTab", "offscreen", "clipboardWrite"]) {
+  if (!manifest.permissions?.includes(p)) fail(`missing required permission: ${p}`);
+}
+
 for (const f of Object.values(manifest.icons ?? {})) {
   if (existsSync(f) && statSync(f).size === 0) fail(`empty icon: ${f}`);
 }

@@ -32,9 +32,10 @@ Chrome only applies an extension's default shortcut on first install, and skips 
 
 ## How it works
 
-- `manifest.json` registers a keyboard command (`copy-url`) and requests only two permissions:
+- `manifest.json` registers a keyboard command (`copy-url`) and requests three permissions:
   - `activeTab` — lets the extension read the URL of the tab you're on, only when you press the shortcut or click the icon.
   - `offscreen` — Manifest V3 service workers have no DOM, so the clipboard write happens in a hidden offscreen document.
+  - `clipboardWrite` — lets that hidden document write to the clipboard (it never has focus, so Chrome otherwise refuses). Chrome shows this as *"Modify data you copy and paste"*; the extension only ever writes the URL and never reads the clipboard.
 - `background.js` handles the shortcut, reads the tab URL, and shows the ✓ (or ! on failure) badge.
 - `offscreen.js` writes the text to the clipboard.
 

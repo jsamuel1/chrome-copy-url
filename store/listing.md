@@ -41,6 +41,7 @@ Copy the URL of the current tab to the clipboard with a keyboard shortcut.
 **Permission justifications:**
 - `activeTab`: Needed to read the URL of the tab the user is on at the moment they press the shortcut or click the toolbar icon. No other tabs or page content are accessed.
 - `offscreen`: Manifest V3 service workers cannot access the clipboard; a hidden offscreen document performs the clipboard write.
+- `clipboardWrite`: The offscreen document is never focused, so Chrome only allows it to write to the clipboard with this permission. Used solely to write the current tab's URL; the clipboard is never read.
 
 **Remote code:** No, I am not using remote code.
 
