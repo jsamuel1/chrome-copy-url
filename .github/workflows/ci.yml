@@ -4,9 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -20,9 +21,22 @@ jobs:
         run: node scripts/validate.mjs
       - name: Build package
         id: build
-        run: echo "zip=$(scripts/build.sh)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "zip=$(scripts/build.sh)" >> "$GITHUB_OUTPUT"
+          echo "version=$(node -p 'require("./manifest.json").version')" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         with:
-          name: extension-zip
+          name: extension-zip-${{ steps.build.outputs.version }}
           path: ${{ steps.build.outputs.zip }}
           if-no-files-found: error
+
+      # Rolling pre-release so testers always have a one-click download of main.
+      - name: Publish rolling "latest" pre-release (main only)
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest "${{ steps.build.outputs.zip }}" --prerelease \
+            --target "$GITHUB_SHA" --title "Latest build (${{ steps.build.outputs.version }})" \
+            --notes "Built from ${GITHUB_SHA}. Unzip, then chrome://extensions → Developer mode → Load unpacked."
