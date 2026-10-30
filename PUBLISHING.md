@@ -16,10 +16,10 @@ Sign up at https://chrome.google.com/webstore/devconsole (one-time US$5 fee). No
 4. **Submit for review.** Note the **extension ID** shown for the item.
 
 ### 3. API credentials for CI
-Follow https://github.com/fregante/chrome-webstore-upload-keys to create a Google Cloud OAuth client (enable the *Chrome Web Store API*) and obtain a client ID, client secret and refresh token.
+The OAuth client lives in the `sauhsoj-dev` Google Cloud project and is shared with TabSage. `scripts/gcloud-oauth-setup.sh` in [chrome-tab-decider](https://github.com/jsamuel1/chrome-tab-decider) creates it and stores the client ID, client secret and refresh token in this repo's environment without printing them; `scripts/cws-refresh-token.mjs --from-github` there mints a new refresh token on its own.
 
 ### 4. Configure the GitHub repository
-Create an environment named **`chrome-web-store`** (Settings → Environments) and add:
+The Store credentials live only in an environment named **`chrome-web-store`** (Settings → Environments), never as repository-wide secrets. The environment requires your approval for every run and only accepts `v*` tags, so no other workflow or branch can read them. It holds:
 
 | Type | Name | Value |
 |---|---|---|
@@ -40,7 +40,7 @@ gh secret set CWS_CLIENT_SECRET --env chrome-web-store
 gh secret set CWS_REFRESH_TOKEN --env chrome-web-store
 ```
 
-Until these are set, the release workflow still creates the GitHub release and skips the store step with a warning.
+Until these are set, the release workflow still creates the GitHub release and skips the store step with a warning. Once they are, each release waits for you to approve it under **Review deployments** on the run.
 
 ## Releasing an update
 
