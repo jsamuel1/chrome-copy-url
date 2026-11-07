@@ -41,4 +41,6 @@ jobs:
             echo "::warning::Chrome Web Store credentials not configured; skipped store upload. See PUBLISHING.md."
             exit 0
           fi
-          npx --yes chrome-webstore-upload-cli@4.0.2 --source "${{ steps.build.outputs.zip }}"
+          # the Store zip: the same files without the manifest "key", which the Store does not accept
+          zip="${{ steps.build.outputs.zip }}"
+          npx --yes chrome-webstore-upload-cli@4.0.2 --source "${zip%.zip}-store.zip"

@@ -2,6 +2,7 @@
 // Usage: node scripts/validate.mjs [expected-version]   e.g. in CI on tag v1.2.3 → "1.2.3"
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 
 const errors = [];
 const fail = (msg) => errors.push(msg);
@@ -22,6 +23,17 @@ if (!manifest.description || manifest.description.length > 132) fail("descriptio
 const expected = process.argv[2]?.replace(/^v/, "");
 if (expected && expected !== manifest.version) {
   fail(`tag version ${expected} does not match manifest version ${manifest.version}`);
+}
+
+// The Store item's public key gives unpacked builds the Store's ID (scripts/build.sh adds it to the
+// GitHub zip). It must match the Store item, and must stay out of manifest.json, which the Store zip uses.
+const STORE_ID = "gnikeakejfmpheocchndnmdkgcbflcdo";
+if ("key" in manifest) fail("manifest.json must not have a \"key\": the Store rejects it (build.sh adds it to the GitHub zip)");
+if (existsSync("extension-key.txt")) {
+  const key = readFileSync("extension-key.txt", "utf8").replace(/-----(BEGIN|END) PUBLIC KEY-----/g, "").replace(/\s+/g, "");
+  const hex = createHash("sha256").update(Buffer.from(key, "base64")).digest("hex").slice(0, 32);
+  const id = [...hex].map((c) => String.fromCharCode(97 + parseInt(c, 16))).join("");
+  if (id !== STORE_ID) fail(`extension-key.txt gives extension ID ${id}, not the Store item's ${STORE_ID}`);
 }
 
 // Every file the manifest points at must exist.

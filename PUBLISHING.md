@@ -42,6 +42,10 @@ gh secret set CWS_REFRESH_TOKEN --env chrome-web-store
 
 Until these are set, the release workflow still creates the GitHub release and skips the store step with a warning. Once they are, each release waits for you to approve it under **Review deployments** on the run.
 
+## A fixed extension ID
+
+`extension-key.txt` is the Store item's public key (it is public: Chrome puts it in every installed copy). `scripts/build.sh` adds it to the manifest of the GitHub zip, so every unpacked copy gets the Store's ID, `gnikeakejfmpheocchndnmdkgcbflcdo`, and loading a new version from another folder keeps its settings. The Store does not accept a manifest `key`, so the build also makes a `-store` zip without it, which the release workflow uploads. `scripts/validate.mjs` checks the key still gives the Store's ID.
+
 ## Releasing an update
 
 ```bash
